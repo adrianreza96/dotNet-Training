@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+	
+</head>
+<body>
+	<div class="row">
+		<div id="questions" class="column">
+			<h1>This is the page!</h1>
+			<div id="question1" class="row">
+				<h3 id ="textBox" >Question 1</h3>
+				<button type="button" onclick="question1()">Run</button>
+			</div>
+			<div id="question2" class="row">
+				<h3 id ="textBox2" >Question 2 </h3>
+				<button type="button" onclick="question2()">Run</button>
+			</div>
+			<div id="question3" class="row">
+				<h3 id ="textBox3">Question 3</h3>
+
+				<div class="column">
+					<label>Enter Birthday</label>
+					<input type="date" id="birthday" />
+				</div>
+
+				<div class="column">
+					<label>Enter future date</label>
+					<input type="date" id="futureDate" />
+				</div>
+
+				<div class="column">
+					<button type="button" onclick="question3()">Submit</button> 
+				</div>
+			</div>
+
+			<div id="question4" class="row">
+				<h3>Question 4: Triangles</h3>
+				<div class="triangle-up"></div>
+				<h4>Triangle Length: </h4>
+
+				<div class="column">
+					<label>X: </label>
+					<input id="x" type="textarea" value="5">
+				</div>
+				<div class="column">
+					<label>Y: </label>
+					<input id="y" type="textarea" value="6">
+				</div>
+				<div class="column">
+					<label>Z: </label>
+					<input id="z" type="textarea" value="7">
+				</div>
+				
+				<div class ="column">
+					<button type="button" onclick="question4()">Submit</button>
+				</div>
+				
+			</div>
+
+			<div id="question5" class="row">
+
+				<h3>Question 5: Temperature</h3>
+				<h5>Note : values change automatically</h5>
+
+				<div class="column">
+					<label>Celsius: </label>
+					<input id="celcius" type="textarea" value="6">
+				</div>
+				<div class="column">
+					<label>Fahrenheit: </label>
+					<input id="fahrenheit" type="textarea" value="7">
+				</div>
+			</div>
+
+			<div id="question6" class="row">
+				<h3>Question 6: Absolute values</h3>
+				<div class="column">
+					<label>Value 1: </label>
+					<input id="val1" type="textarea" value="6">
+				</div>
+				<div class="column">
+					<label>Value 2: </label>
+					<input id="val2" type="textarea" value="13">
+				</div>
+				<button type="button" onclick="question6()">Submit</button> 
+			</div>
+		</div>
+		<div id="resultsColumn" class="column" >
+
+			<h2>Result Box</h2>
+			<div>
+				<div id="result"></div>
+			</div>
+			<button id="clearText" type="button" >Clear</button>
+		</div>
+		
+</body>	
+</html>
+<script type="text/javascript">
+	var birthday;
+	var futureDate;
+
+	loadEventListeners();
+
+	function question1(){
+		alert("Welcome user! This is question 1 of the JS assignment");
+		var input = prompt("Please enter your name : ");
+		var likesSoccer = confirm("Do you like Soccer?");
+		var print = "Welcome "+input + (likesSoccer ? ", you love soccer! \n": ", you don't like soccer...\n");
+		printResult("Question 1: "+print);
+		alert(print);
+	}
+
+	function question2(){
+		printResult("Question 2: \n");
+		var element = document.getElementById("result");
+		for (var i = 0; i<15; i++) {
+			
+			element.innerText += +i%2 ==1 ? (""+i+" is odd\n") : (i+" is even\n");
+		}
+	}
+
+	function question3(){
+		var diff = futureDate.getFullYear() - birthday.getFullYear();
+
+		var resultElem = document.getElementById("result");
+		let result = "I will be " + diff + " or " + (diff -1)+" in "+ futureDate.getFullYear();
+		printResult("Question 3 :" +result +"\n");
+	}
+
+	function question4(){
+		var x = parseInt(document.getElementById("x").value);
+		var y = parseInt(document.getElementById("y").value);
+		var z = parseInt(document.getElementById("z").value);
+		
+		var halfPerimeter = (x+y+z)/2;
+		let area = Math.sqrt((halfPerimeter*(halfPerimeter-x)*(halfPerimeter-y)*(halfPerimeter-z)));
+		printResult("Question 4: Area of triangle is : "+area  +"\n");
+	}
+
+	function question6(){
+		var val1 = parseInt(document.getElementById("val1").value);
+		var val2 = parseInt(document.getElementById("val2").value);
+		if(val1 > val2){
+			printResult("Question 6 Result :" + Math.abs(val2-val1)+"\n");
+		}else{
+			printResult("Question 6 Result :" + (val2-val1)+"\n");
+		}
+	}
+
+
+	function printResult(text){
+		var resultElem = document.getElementById("result");
+		resultElem.innerText += text ;
+
+	}
+
+	function loadEventListeners(){
+		document.getElementById("birthday").addEventListener("change", function() {
+			var date = this.value;
+			birthday = new Date(date);
+
+		});
+
+		document.getElementById("futureDate").addEventListener("change", function() {
+			var date = this.value;
+			futureDate = new Date(date);
+
+		});
+
+		document.getElementById("clearText").addEventListener("click", function() {
+			var resultElem = document.getElementById("result");
+			resultElem.innerText="";
+
+		});
+
+		document.getElementById("celcius").addEventListener("change", function() {
+			console.log("change");
+			let fahrenheit = document.getElementById("fahrenheit");
+			fahrenheit.value = parseInt(this.value) * (9/5) + 32;
+
+		});
+
+		document.getElementById("fahrenheit").addEventListener("change", function() {
+			let celcius = document.getElementById("celcius");
+			celcius.value = (parseInt(this.value) - 32) * (5/9);
+
+		});
+	}
+	
+</script>
+
+<style>
+.triangle-up {
+	width: 0;
+	height: 0;
+	border-left: 25px solid transparent;
+	border-right: 25px solid transparent;
+	border-bottom: 50px solid #555;
+}
+.column {
+  float: left;
+  width: 40%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.row{
+
+  border-radius: 25px;
+  border: 2px solid #73AD21;
+  padding: 20px;
+}
+#resultsColumn{
+  border-radius: 25px;
+  border: 2px solid blue;
+  padding: 30px;
+  padding-left: 5%;
+}
+
+html, body {
+  height: 100%;
+}
+body {background-color: coral;}
+</style>
